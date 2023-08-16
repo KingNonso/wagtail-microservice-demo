@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wagtail-config
+data:
+  DJANGO_ALLOWED_HOSTS: "*"
+  STATIC_BUCKET_NAME: "wagtaildemo-static"
+  STATIC_ENDPOINT_URL: "https://k8s-s3.sfo3.digitaloceanspaces.com"
+  DJANGO_LOGLEVEL: "info"
+  DEBUG: "True"
+  DATABASE_ENGINE: "postgresql_psycopg2"

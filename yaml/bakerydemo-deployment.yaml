@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: mykingnonso/wagtail-microservice-bakery-demo:v1
+          envFrom:
+            - configMapRef:
+                name: wagtail-config
+            - secretRef:
+                name: wagtaildemo-secrets
+          env:
+            - name: DJANGO_SECRET_KEY
+              value: changeme
+            - name: DATABASE_URL
+              value: postgres://app_user:changeme@postgres/app_db
+            - name: REDIS_URL
+              value: redis://redis
+            - name: DJANGO_SETTINGS_MODULE
+              value: wagtaildemo.settings
+          ports:
+            - containerPort: 8000
+              name: app-port
+          # volumeMounts:
+          #   - name: code-volume
+          #     mountPath: /code/bakerydemo
+      # volumes:
+      #   - name: code-volume
+      #     hostPath:
+      #       path: /path/to/your/local/code/directory
